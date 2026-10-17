@@ -27,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@org.springframework.context.annotation.PropertySource("classpath:service.properties")
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -111,6 +112,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //任何人都能访问这个请求
                 .antMatchers("/captcha").permitAll()
+                .requestMatchers(org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest.toAnyEndpoint().excluding("httpexchanges")).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
